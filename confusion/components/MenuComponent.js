@@ -33,7 +33,7 @@ class Menu extends Component  {
                         hideChevron={true}
                         // onPress={()=>props.onPress(item.id)}
                         onPress={()=> navigate('Dishdetail',{dishId: item.id})}
-                        leftAvatar={{ source: require('./images/uthappizza.png')}}
+                        leftAvatar={{ source: require('./images/uthappizza.png'), containerStyle: {marginBottom: 0}}}
                       />
             );
         };

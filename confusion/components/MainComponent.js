@@ -7,7 +7,10 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import Home from './HomeComponent';
-import { Icon } from 'react-native-elements';
+import Aboutus from './AboutusComponent'
+
+import Contactus from './ContactusComponent'; 
+// import { Icon } from 'react-native-elements';
 
 
 
@@ -30,6 +33,12 @@ class Main extends Component{
       }, {
         
     });
+    const AboutusNavigator = createStackNavigator({
+        Aboutus: { screen: Aboutus }
+      });
+    const ContactusNavigator = createStackNavigator({
+        Contact: { screen: Contactus }
+      });
     const MainNavigator = createDrawerNavigator({
         Home: 
           { screen: HomeNavigator,
@@ -38,12 +47,26 @@ class Main extends Component{
               drawerLabel: 'Home'
             }
           },
+          Aboutus: 
+          { screen: AboutusNavigator,
+            navigationOptions: {
+              title: 'About Us',
+              drawerLabel: 'About Us'
+            }
+          },
         Menu: 
           { screen: MenuNavigator,
             navigationOptions: {
               title: 'Menu',
               drawerLabel: 'Menu'
             }, 
+          },
+        Contact: 
+          { screen: ContactusNavigator,
+            navigationOptions: {
+              title: 'Contact Us',
+              drawerLabel: 'Contact Us'
+            }
           }
     }, {
       drawerBackgroundColor: '#D1C4E9'
