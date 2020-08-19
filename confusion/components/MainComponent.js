@@ -7,7 +7,8 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import Home from './HomeComponent';
-import Expo from 'expo';
+import { Icon } from 'react-native-elements';
+
 
 
 class Main extends Component{
