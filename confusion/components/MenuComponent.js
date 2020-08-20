@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
+import { Icon } from 'react-native-elements';
 
 class Menu extends Component  {
     constructor(props){
@@ -10,16 +11,21 @@ class Menu extends Component  {
             dishes:DISHES
         }
     }
-    static navigationOptions = {
-        title: 'Menu',
+
+    static navigationOptions = ({navigation})=>({
         headerStyle: {  
             backgroundColor: "#512DA8"
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
             color: "#fff"            
-        }
-    };
+        },
+        headerLeft: () =>  <Icon 
+        name="menu"
+        color='white'
+        onPress={()=> navigation.toggleDrawer()}/>
+    
+    });
     render(){
         const renderMenuItem = ({item, index}) => {
         const { navigate } = this.props.navigation;

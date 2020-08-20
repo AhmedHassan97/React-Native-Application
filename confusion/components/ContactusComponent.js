@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Card } from 'react-native-elements';
-import { DISHES } from '../shared/dishes';
+import { Icon } from 'react-native-elements';
 
 
 
@@ -10,15 +10,20 @@ class Contactus extends Component{
     super(props);
      
 }
-static navigationOptions = {
-    headerStyle: {
+static navigationOptions = ({navigation})=>({
+    headerStyle: {  
         backgroundColor: "#512DA8"
     },
-    headerTintColor: '#512DA8',
+    headerTintColor: '#fff',
     headerTitleStyle: {
-        color: "#512DA8"            
-    }
-};
+        color: "#fff"            
+    },
+    headerLeft: () =>  <Icon 
+    name="menu"
+    color='white'
+    onPress={()=> navigation.toggleDrawer()}/>
+
+});
 render(){
     return(
         <Card

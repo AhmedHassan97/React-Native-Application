@@ -3,7 +3,7 @@ import { View, FlatList,StyleSheet,Text} from 'react-native';
 import { ListItem, Card } from 'react-native-elements';
 import { LEADERS } from '../shared/leaders';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import { Icon } from 'react-native-elements';
 function History(props){
     return(
                 <Card
@@ -28,16 +28,20 @@ class Aboutus extends Component  {
             leaders:LEADERS
         }
     }
-    static navigationOptions = {
-        title: 'About Us',
+    static navigationOptions = ({navigation})=>({
         headerStyle: {  
             backgroundColor: "#512DA8"
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
             color: "#fff"            
-        }
-    };
+        },
+        headerLeft: () =>  <Icon 
+        name="menu"
+        color='white'
+        onPress={()=> navigation.toggleDrawer()}/>
+    
+    });
     render(){
         const renderLeadersItem = ({item, index}) => {
 

@@ -4,6 +4,7 @@ import { Card } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 import { PROMOTIONS } from '../shared/promotions';
 import { LEADERS } from '../shared/leaders';
+import { Icon } from 'react-native-elements';
 
 function RenderItem(props) {
     
@@ -35,15 +36,20 @@ class Home extends Component {
           };
       }
         
-    static navigationOptions = {
+      static navigationOptions = ({navigation})=>({
         headerStyle: {  
             backgroundColor: "#512DA8"
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
             color: "#fff"            
-        }
-        };
+        },
+        headerLeft: () =>  <Icon 
+                    name="menu"
+                    color='white'
+                    onPress={()=> navigation.toggleDrawer()}/>
+    
+    });
         render()
         {
             return(
