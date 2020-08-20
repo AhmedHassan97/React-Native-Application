@@ -11,17 +11,34 @@ import Aboutus from './AboutusComponent'
 
 import Contactus from './ContactusComponent'; 
 import { Icon } from 'react-native-elements';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
+import { connect } from 'react-redux';
 
+const mapStateToProps = state => {
+    return {
+     
+    }
+  }
+  const mapDispatchToProps = dispatch => ({
+    fetchDishes: () => dispatch(fetchDishes()),
+    fetchComments: () => dispatch(fetchComments()),
+    fetchPromos: () => dispatch(fetchPromos()),
+    fetchLeaders: () => dispatch(fetchLeaders()),
+  })
+ 
 
 class Main extends Component{
     constructor(props) {
         super (props);
-        this.state={
-            dishes: DISHES
-        }
+        
     }
- 
+    componentDidMount() {
+        this.props.fetchDishes();
+        this.props.fetchComments();
+        this.props.fetchPromos();
+        this.props.fetchLeaders();
+      }
     render(){
     const CustomDrawerContentComponent = (props) => (
         <ScrollView>
@@ -154,4 +171,4 @@ const styles = StyleSheet.create({
       height: 60
     }
   });
-export default Main;
+  export default connect(mapStateToProps, mapDispatchToProps)(Main);
