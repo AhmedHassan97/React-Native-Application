@@ -20,6 +20,7 @@ const mapStateToProps = state => {
      
     }
   }
+  
   const mapDispatchToProps = dispatch => ({
     fetchDishes: () => dispatch(fetchDishes()),
     fetchComments: () => dispatch(fetchComments()),
