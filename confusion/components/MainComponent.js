@@ -9,6 +9,7 @@ import {createDrawerNavigator,DrawerItems} from 'react-navigation-drawer';
 import Home from './HomeComponent';
 import Aboutus from './AboutusComponent'
 import Reservation from './ReservationComponent';
+import Favorites from './FavoriteComponent';
 
 import Contactus from './ContactusComponent'; 
 import { Icon } from 'react-native-elements';
@@ -58,9 +59,27 @@ class Main extends Component{
         </ScrollView>
         );
 
+        const FavoritesNavigator = createStackNavigator({
+          Favorites: { screen: Favorites }
+        })
+      
+        
 
         const ReservationNavigator = createStackNavigator({
           Reservation: { screen: Reservation }
+        }, {
+          navigationOptions: ({ navigation }) => ({
+            headerStyle: {
+                backgroundColor: "#512DA8"
+            },
+            headerTitleStyle: {
+                color: "#fff"            
+            },
+            headerTintColor: "#fff",
+            headerLeft: <Icon name="menu" size={24}
+              iconStyle={{ color: 'white' }} 
+              onPress={ () => navigation.navigate('DrawerToggle') } />    
+          })
         })
     const MenuNavigator = createStackNavigator({
             Menu: { screen: Menu },
@@ -153,7 +172,22 @@ class Main extends Component{
             />
           ),
         }
-      }
+      },
+      Favorites:
+        { screen: FavoritesNavigator,
+          navigationOptions: {
+            title: 'My Favorites',
+            drawerLabel: 'My Favorites',
+            drawerIcon: ({ tintColor, focused }) => (
+              <Icon
+                name='heart'
+                type='font-awesome'            
+                size={24}
+                iconStyle={{ color: tintColor }}
+              />
+            ),
+          }
+        }
     }, {
       drawerBackgroundColor: '#D1C4E9',
       contentComponent: CustomDrawerContentComponent

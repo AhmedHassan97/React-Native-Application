@@ -148,9 +148,49 @@ export const postFavorite = (dishId)  => (dispatch) => {
         dispatch(addFavorite(dishId));
     }, 2000);
 };
-
-
 export const addFavorite = (dishId) => ({
     type: ActionTypes.ADD_FAVORITE,
     payload: dishId
+});
+
+export const postComment = (author,comment,starCount,dishId)  => (dispatch) => {
+    const newComment = {
+        dishId: dishId,
+        rating: starCount,
+        author: author,
+        comment: comment,
+        
+    };
+    newComment.date = new Date().toISOString();
+    
+    return fetch(baseUrl + 'comments', {
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+    .then(response => response.json())
+    .then(response => setTimeout(() => {
+        dispatch(addComment(response));
+    }, 2000))
+    .catch(error =>  { console.log('post comments', error.message); });
+
+};
+export const addComment = (comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
 });
