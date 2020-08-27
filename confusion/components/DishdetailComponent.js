@@ -9,6 +9,7 @@ import { baseUrl } from '../shared/basedUrl';
 import { postFavorite , postComment} from '../redux/ActionCreators';
 import StarRating from 'react-native-star-rating';
 import { color } from 'react-native-reanimated';
+import * as Animatable from 'react-native-animatable';
 
 
   const mapStateToProps = state => {
@@ -48,13 +49,16 @@ function RenderComments(props) {
     };
     
     return (
-        <Card title='Comments' >
-        <FlatList 
-            data={comments}
-            renderItem={renderCommentItem}
-            keyExtractor={item => item.id.toString()}
-            />
-        </Card>
+        <View>
+            <Card title='Comments' >
+            <FlatList 
+                data={comments}
+                renderItem={renderCommentItem}
+                keyExtractor={item => item.id.toString()}
+                />
+            </Card>
+        </View>
+
     );
 }
 function RenderDish(props){
@@ -233,20 +237,24 @@ render(){
     const dishId = this.props.navigation.getParam('dishId','');
     return(
         <View>
-            <RenderDish dish={this.props.dishes.dishes[+dishId]}
-                    favorite={this.props.favorites.some(el => el === dishId)}
-                    onPress={() => this.markFavorite(dishId)}
-                    toggleModal={() => this.toggleModal()} 
-                    showModal={this.state.showModal}
-                    onStarRatingPress={this.onStarRatingPress}
-                    starCount={this.state.starCount}
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+                <RenderDish dish={this.props.dishes.dishes[+dishId]}
+                        favorite={this.props.favorites.some(el => el === dishId)}
+                        onPress={() => this.markFavorite(dishId)}
+                        toggleModal={() => this.toggleModal()} 
+                        showModal={this.state.showModal}
+                        onStarRatingPress={this.onStarRatingPress}
+                        starCount={this.state.starCount}
 
-                    handleAutrhor={this.handleAutrhor}
-                    handleComment={this.handleComment}
-                    handleSubmit={()=>this.handleSubmit(dishId)}
-            />
-            <RenderComments 
-            comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
+                        handleAutrhor={this.handleAutrhor}
+                        handleComment={this.handleComment}
+                        handleSubmit={()=>this.handleSubmit(dishId)}
+                />
+            </Animatable.View>
+            <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
+                <RenderComments 
+                comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
+            </Animatable.View>
         </View>
         )
 }
