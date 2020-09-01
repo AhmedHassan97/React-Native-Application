@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList ,StyleSheet,Modal,Button,TextInput} from 'react-native';
+import { Text, View, ScrollView, FlatList ,StyleSheet,Modal,Button,TextInput,Alert,PanResponder} from 'react-native';
 import { Card } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
@@ -63,10 +63,53 @@ function RenderComments(props) {
 }
 function RenderDish(props){
     const dish=props.dish;
+    const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+        if ( dx < -200 )
+            return true;
+        else
+            return false;
+    }
+    const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+        if ( dx > -200 )
+            return true;
+        else
+            return false;
+    }
+    handleViewRef = ref => this.view = ref;
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: (e, gestureState) => {
+            return true;
+        },
+        onPanResponderEnd: (e, gestureState) => {
+            console.log("pan responder end", gestureState);
+            if (recognizeDrag(gestureState))
+                
+            {    Alert.alert(
+                        'Add Favorite',
+                        'Are you sure you wish to add ' + dish.name + ' to favorite?',
+                        [
+                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                        {text: 'OK', onPress: () => {props.favorite ? console.log('Already favorite') : props.onPress()}},
+                        ],
+                        { cancelable: false }
+                    );
+                return true;
+            }
+            else if (recognizeComment(gestureState)) {
+                props.toggleModal();
+                return true;
+            }
+        },
+        onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
 
+    })
     if(dish != null)
     {
         return(
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+            {...panResponder.panHandlers}
+            ref={(ref)=>this.handleViewRef(ref)}
+            >
             <Card
                 featuredTitle={dish.name}
                 image={{uri : baseUrl + dish.image }}
@@ -94,6 +137,7 @@ function RenderDish(props){
                         onPress={() => props.toggleModal()}
                         />
                 </View>
+                
                 <Modal animationType = {"slide"} transparent = {false}
                     visible = {props.showModal}
                     onDismiss = {() => props.toggleModal() }
@@ -167,6 +211,8 @@ function RenderDish(props){
                     </View>    
                 </Modal>
             </Card>
+        </Animatable.View>
+
         );
     }
     else{
@@ -174,6 +220,7 @@ function RenderDish(props){
         
     }
 }
+
 
 class Dishdetail extends Component{
     constructor(props){
@@ -237,8 +284,8 @@ render(){
     const dishId = this.props.navigation.getParam('dishId','');
     return(
         <View>
-            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
-                <RenderDish dish={this.props.dishes.dishes[+dishId]}
+
+            <RenderDish dish={this.props.dishes.dishes[+dishId]}
                         favorite={this.props.favorites.some(el => el === dishId)}
                         onPress={() => this.markFavorite(dishId)}
                         toggleModal={() => this.toggleModal()} 
@@ -250,7 +297,6 @@ render(){
                         handleComment={this.handleComment}
                         handleSubmit={()=>this.handleSubmit(dishId)}
                 />
-            </Animatable.View>
             <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
                 <RenderComments 
                 comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />

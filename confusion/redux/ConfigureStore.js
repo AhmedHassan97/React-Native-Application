@@ -6,19 +6,31 @@ import { comments } from './comments';
 import { promotions } from './promotions';
 import { leaders } from './leaders';
 import { favorites } from './favorites';
+import { persistStore, persistCombineReducers } from 'redux-persist';
+// import storage from 'redux-persist/es/storage';
+import AsyncStorage from '@react-native-community/async-storage';
+const config = {
+    key: 'root',
+    storage:AsyncStorage,
+    debug: true
+  }
 
 export const ConfigureStore = () => {
+
     const store = createStore(
-        combineReducers({
+        persistCombineReducers(config, {
             dishes,
             comments,
             promotions,
             leaders,
             favorites
-
         }),
-        applyMiddleware(thunk, logger)
+             applyMiddleware(thunk, logger)
     );
 
-    return store;
+   
+    const persistor = persistStore(store)
+
+    return { persistor, store };
+
 }

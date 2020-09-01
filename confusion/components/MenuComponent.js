@@ -49,7 +49,7 @@ class Menu extends Component  {
                     imageSrc={{ uri: baseUrl + item.image}}
                     />
                 </Animatable.View>
-            );
+            ); 
         };
         if (this.props.dishes.isLoading) {
             return(
