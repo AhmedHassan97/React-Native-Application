@@ -10,6 +10,7 @@ import Home from './HomeComponent';
 import Aboutus from './AboutusComponent'
 import Reservation from './ReservationComponent';
 import Favorites from './FavoriteComponent';
+import Login from './LoginComponent';
 
 import Contactus from './ContactusComponent'; 
 import { Icon } from 'react-native-elements';
@@ -63,24 +64,14 @@ class Main extends Component{
           Favorites: { screen: Favorites }
         })
       
-        
+        const LoginNavigator = createStackNavigator({
+          Login: { screen: Login }
+      });
 
-        const ReservationNavigator = createStackNavigator({
-          Reservation: { screen: Reservation }
-        }, {
-          navigationOptions: ({ navigation }) => ({
-            headerStyle: {
-                backgroundColor: "#512DA8"
-            },
-            headerTitleStyle: {
-                color: "#fff"            
-            },
-            headerTintColor: "#fff",
-            headerLeft: <Icon name="menu" size={24}
-              iconStyle={{ color: 'white' }} 
-              onPress={ () => navigation.navigate('DrawerToggle') } />    
-          })
-        })
+    const ReservationNavigator = createStackNavigator({
+      Reservation: { screen: Reservation }
+    
+    })
     const MenuNavigator = createStackNavigator({
             Menu: { screen: Menu },
             Dishdetail: { screen: Dishdetail }
@@ -98,6 +89,21 @@ class Main extends Component{
         Contact: { screen: Contactus }
       });
     const MainNavigator = createDrawerNavigator({
+        Login: 
+          { screen: LoginNavigator,
+            navigationOptions: {
+              title: 'Login',
+              drawerLabel: 'Login',
+              drawerIcon: ({ tintColor, focused }) => (
+                <Icon
+                  name='sign-in'
+                  type='font-awesome'            
+                  size={24}
+                  iconStyle={{ color: tintColor }}
+                />
+              ),
+            }
+          },
         Home: 
           { screen: HomeNavigator,
             navigationOptions: {
@@ -189,6 +195,7 @@ class Main extends Component{
           }
         }
     }, {
+      initialRouteName: 'Home',
       drawerBackgroundColor: '#D1C4E9',
       contentComponent: CustomDrawerContentComponent
 
