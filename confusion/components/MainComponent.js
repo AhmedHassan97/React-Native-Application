@@ -60,13 +60,13 @@ class Main extends Component{
         </ScrollView>
         );
 
-        const FavoritesNavigator = createStackNavigator({
-          Favorites: { screen: Favorites }
-        })
+    const FavoritesNavigator = createStackNavigator({
+      Favorites: { screen: Favorites }
+    })
       
-        const LoginNavigator = createStackNavigator({
-          Login: { screen: Login }
-      });
+      const LoginNavigator = createStackNavigator({
+        Login: { screen: Login }
+    });
 
     const ReservationNavigator = createStackNavigator({
       Reservation: { screen: Reservation }

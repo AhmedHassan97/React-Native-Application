@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList ,StyleSheet,Modal,Button,TextInput,Alert,PanResponder} from 'react-native';
+import { Text, View, ScrollView, FlatList ,StyleSheet,Modal,Button,TextInput,Alert,PanResponder,Share} from 'react-native';
 import { Card } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
@@ -103,8 +103,18 @@ function RenderDish(props){
         onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
 
     })
+    const shareDish = (title, message, url) => {
+        Share.share({
+            title: title,
+            message: title + ': ' + message + ' ' + url,
+            url: url
+        },{
+            dialogTitle: 'Share ' + title
+        })
+    }
     if(dish != null)
     {
+      
         return(
             <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
             {...panResponder.panHandlers}
@@ -136,6 +146,15 @@ function RenderDish(props){
                         color='#f50'
                         onPress={() => props.toggleModal()}
                         />
+                          <Icon
+                            raised
+                            reverse
+                            name='share'
+                            type='font-awesome'
+                            color='#51D2A8'
+                            style={styles.cardItem}
+                            onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image)} />
+                            
                 </View>
                 
                 <Modal animationType = {"slide"} transparent = {false}

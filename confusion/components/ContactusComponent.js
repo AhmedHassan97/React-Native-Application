@@ -3,7 +3,8 @@ import { View, Text } from 'react-native';
 import { Card } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
-
+import { Button } from 'react-native-elements';
+import * as MailComposer from 'expo-mail-composer';
 
 
 class Contactus extends Component{
@@ -25,6 +26,15 @@ static navigationOptions = ({navigation})=>({
     onPress={()=> navigation.toggleDrawer()}/>
 
 });
+
+sendMail() {
+    MailComposer.composeAsync({
+        recipients: ['confusion@food.net'],
+        subject: 'Enquiry',
+        body: 'To whom it may concern:'
+    })
+}
+
 render(){
     return(
         <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>        
@@ -54,6 +64,12 @@ render(){
                 <Text>
                     Email:confusion@food.net
                 </Text>
+                <Button
+                        title="Send Email"
+                        buttonStyle={{backgroundColor: "#512DA8"}}
+                        icon={<Icon name='envelope-o' type='font-awesome' color='white' />}
+                        onPress={this.sendMail}
+                        />
             </Card>
         </Animatable.View>
     )
