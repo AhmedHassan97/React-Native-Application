@@ -6,6 +6,8 @@ import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker';
 import { baseUrl } from '../shared/basedUrl';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import * as ImageManipulator from "expo-image-manipulator";
+import { Asset } from "expo-asset";
 
 
 class LoginTab extends Component {
@@ -144,12 +146,23 @@ class RegisterTab extends Component {
             });
             if (!capturedImage.cancelled) {
                 console.log(capturedImage);
-                this.setState({imageUrl: capturedImage.uri });
+                this.processImage(capturedImage.uri);
             }
         }
 
     }
-    
+    processImage = async (imageUri) => {
+        let processedImage = await ImageManipulator.manipulateAsync(
+            imageUri, 
+            [
+                {resize: {width: 400}}
+            ],
+            {format: 'png'}
+        );
+        console.log(processedImage);
+        this.setState({imageUrl: processedImage.uri });
+
+    }
     static navigationOptions = {
         title: 'Register',
         tabBarIcon: ({ tintColor, focused }) => (
@@ -262,6 +275,16 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         margin: 20,
+    },
+    imageContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        margin: 20
+    },
+    image: {
+      margin: 10,
+      width: 80,
+      height: 60
     },
     formInput: {
         margin: 40
